@@ -1,7 +1,6 @@
-# Use a Python base image with Debian slim
 FROM python:3.11-slim
 
-# Install ffmpeg and other dependencies
+# Install ffmpeg and clean cache
 RUN apt-get update && apt-get install -y ffmpeg && apt-get clean
 
 # Set working directory
