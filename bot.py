@@ -114,6 +114,7 @@ async def download_audio(url):
             'preferredcodec': 'mp3',
             'preferredquality': '192',
         }],
+        'cookiefile': 'cookies.txt',  # ✅ Use your cookies.txt file here
         'quiet': True,
     }
     try:
