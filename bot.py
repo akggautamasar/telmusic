@@ -1,33 +1,43 @@
 import os
-import threading
 import yt_dlp
-from flask import Flask
+import asyncio
+from dotenv import load_dotenv
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     ApplicationBuilder,
     CommandHandler,
     MessageHandler,
     CallbackQueryHandler,
-    filters,
     ContextTypes,
+    filters,
 )
-from dotenv import load_dotenv
+from flask import Flask
 
-# Load environment
+# Load .env
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
+# Telegram search results storage
 SEARCH_RESULTS = {}
-app_flask = Flask(__name__)
 
-# Flask dummy route
-@app_flask.route("/")
-def health():
-    return "Bot is alive", 200
+# Clean download folder
+os.makedirs("downloads", exist_ok=True)
+for f in os.listdir("downloads"):
+    try:
+        os.remove(os.path.join("downloads", f))
+    except:
+        pass
 
-# Telegram Bot Functions
+# Flask app
+flask_app = Flask(__name__)
+
+@flask_app.route("/")
+def index():
+    return "Bot is running!"
+
+# Telegram Handlers
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("🎵 Welcome! Send me a song or video name, and I'll fetch it for you.")
+    await update.message.reply_text("🎵 Send a song or video name to fetch it!")
 
 async def search(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.message.text
@@ -35,6 +45,7 @@ async def search(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not videos:
         await update.message.reply_text("❌ No results found.")
         return
+
     user_id = update.effective_user.id
     SEARCH_RESULTS[user_id] = {'query': query, 'videos': videos, 'page': 0}
     await show_video_list(update, context, user_id)
@@ -98,7 +109,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         index = int(query.data.split("_")[1])
         video = SEARCH_RESULTS[user_id]['videos'][index]
         url = f"https://www.youtube.com/watch?v={video['id']}"
-        await query.edit_message_text(f"🎧 Downloading audio for: {video['title'][:70]}")
+        await query.edit_message_text(f"🎧 Downloading audio for:\n{video['title']}")
 
         file_path = await download_audio(url)
         if file_path:
@@ -106,6 +117,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await context.bot.send_audio(chat_id=query.message.chat_id, audio=open(file_path, 'rb'))
                 os.remove(file_path)
             except Exception as e:
+                print(f"❌ Error sending/deleting: {e}")
                 await context.bot.send_message(chat_id=query.message.chat_id, text="❌ Failed to send audio.")
         else:
             await context.bot.send_message(chat_id=query.message.chat_id, text="❌ Failed to download audio.")
@@ -130,15 +142,27 @@ async def download_audio(url):
         print(f"Download error: {e}")
         return None
 
-def run_bot():
+# Async run function for both Flask and Bot
+async def main():
+    from telegram.ext import Application
     app = ApplicationBuilder().token(BOT_TOKEN).build()
+
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, search))
     app.add_handler(CallbackQueryHandler(button_handler))
-    print("🤖 Bot running in background...")
-    app.run_polling()
 
+    # Start Telegram bot polling
+    print("🤖 Bot running...")
+    await app.initialize()
+    await app.start()
+    await app.updater.start_polling()
+
+# Entry point
 if __name__ == "__main__":
-    threading.Thread(target=run_bot).start()
-    port = int(os.environ.get("PORT", 8080))
-    app_flask.run(host="0.0.0.0", port=port)
+    import threading
+
+    # Run Flask in a separate thread
+    threading.Thread(target=lambda: flask_app.run(host="0.0.0.0", port=8000)).start()
+
+    # Run async bot
+    asyncio.run(main())
