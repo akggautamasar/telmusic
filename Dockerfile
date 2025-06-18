@@ -1,16 +1,17 @@
+# Use a Python base image with Debian slim
 FROM python:3.11-slim
 
-# Install ffmpeg
+# Install ffmpeg and other dependencies
 RUN apt-get update && apt-get install -y ffmpeg && apt-get clean
 
 # Set working directory
 WORKDIR /app
 
-# Copy files
+# Copy project files
 COPY . .
 
-# Install dependencies
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Run the bot
+# Start the bot
 CMD ["python", "bot.py"]
