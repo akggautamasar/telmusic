@@ -1,11 +1,10 @@
-FROM python:3.11-slim
-
-RUN apt-get update && apt-get install -y ffmpeg && apt-get clean
+FROM python:3.10-slim
 
 WORKDIR /app
-
 COPY . .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN apt-get update && apt-get install -y ffmpeg && \
+    pip install --upgrade pip && \
+    pip install -r requirements.txt
 
 CMD ["python", "bot.py"]
