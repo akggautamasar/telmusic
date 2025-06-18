@@ -1,146 +1,16 @@
-[
-  {
-    "name": "HSID",
-    "value": "AUdzs2V8UHYre263c",
-    "domain": ".youtube.com",
-    "path": "/",
-    "expires": 1783413039.465293,
-    "httpOnly": true,
-    "secure": false
-  },
-  {
-    "name": "SSID",
-    "value": "A8wlKTOxv7nOckvjS",
-    "domain": ".youtube.com",
-    "path": "/",
-    "expires": 1783413039.465404,
-    "httpOnly": true,
-    "secure": true
-  },
-  {
-    "name": "APISID",
-    "value": "0zd7D1-6eO08A7Nw/AndFzsQUEx5Uf64ex",
-    "domain": ".youtube.com",
-    "path": "/",
-    "expires": 1783413039.46544,
-    "httpOnly": false,
-    "secure": false
-  },
-  {
-    "name": "SAPISID",
-    "value": "SSYLP66p3nwFbcff/Aa_R0-ki5VTu4iHzi",
-    "domain": ".youtube.com",
-    "path": "/",
-    "expires": 1783413039.465471,
-    "httpOnly": false,
-    "secure": true
-  },
-  {
-    "name": "__Secure-1PAPISID",
-    "value": "SSYLP66p3nwFbcff/Aa_R0-ki5VTu4iHzi",
-    "domain": ".youtube.com",
-    "path": "/",
-    "expires": 1783413039.465502,
-    "httpOnly": false,
-    "secure": true
-  },
-  {
-    "name": "__Secure-3PAPISID",
-    "value": "SSYLP66p3nwFbcff/Aa_R0-ki5VTu4iHzi",
-    "domain": ".youtube.com",
-    "path": "/",
-    "expires": 1783413039.465532,
-    "httpOnly": false,
-    "secure": true
-  },
-  {
-    "name": "LOGIN_INFO",
-    "value": "AFmmF2swRQIgeizrIBYrYrY09tkSk22Yqp6_emnikf1NXC-HZ0HU7LYCIQCLQkjwnP-cALt9w82sz0HhcdrrmlDSrGqVVC8qv2LeOQ:QUQ3MjNmelZ2dFpSRldIbG5sMW1sMUlqTnQ1Z3ZDQ0tOMzBFdW9TVzFjMlVuNVRDMlBJeEg2LVhrOGlIbThaT01pZGJkekRrVlpxQlU0V29vNnAzZWVfMEh6M2NnMm1TSXVtNUZHLU9TbDdobG1hVDA1cEN4dFdDeEhVWC01SVhuZU91dVJ4TWU2U2ZUWDZrMVlLRWMyM2hMcDY2M2dKTHpB",
-    "domain": ".youtube.com",
-    "path": "/",
-    "expires": 1779448623.446654,
-    "httpOnly": true,
-    "secure": true
-  },
-  {
-    "name": "PREF",
-    "value": "f7=100&tz=Asia.Calcutta",
-    "domain": ".youtube.com",
-    "path": "/",
-    "expires": 1784795723.261921,
-    "httpOnly": false,
-    "secure": true
-  },
-  {
-    "name": "SID",
-    "value": "g.a000xgjCkhHL_dUivYNB9MchsrRFlaPU3o0LKKkClULXh5hi1JjFl4Ot9dJgyhXvwOya0tFyzgACgYKAX4SARUSFQHGX2MikvAaJAwqXXiNV11Qr50YthoVAUF8yKq4RezvHBg7IHTiOw8EIqvg0076",
-    "domain": ".youtube.com",
-    "path": "/",
-    "expires": 1783413039.465795,
-    "httpOnly": false,
-    "secure": false
-  },
-  {
-    "name": "__Secure-1PSID",
-    "value": "g.a000xgjCkhHL_dUivYNB9MchsrRFlaPU3o0LKKkClULXh5hi1JjFtYmDEFXNoh1vp9Dr71A9jwACgYKAbsSARUSFQHGX2MiupKiJHzKImrqYk_ZuWVKFxoVAUF8yKpj7Y6OKK46uaDAtfA5o04K0076",
-    "domain": ".youtube.com",
-    "path": "/",
-    "expires": 1783413039.465832,
-    "httpOnly": true,
-    "secure": true
-  },
-  {
-    "name": "__Secure-3PSID",
-    "value": "g.a000xgjCkhHL_dUivYNB9MchsrRFlaPU3o0LKKkClULXh5hi1JjF81I1woeZWihB6RFIkw_RzgACgYKAYcSARUSFQHGX2Mi6-ELs1LbDuIA3ucStdjHHBoVAUF8yKoyVhT6eYuCcDcPVhix6CLA0076",
-    "domain": ".youtube.com",
-    "path": "/",
-    "expires": 1783413039.465864,
-    "httpOnly": true,
-    "secure": true
-  },
-  {
-    "name": "__Secure-1PSIDTS",
-    "value": "sidts-CjIB5H03PxpUSpQoJwDUcIG8_XFYn_GMJDOJC-901Sp6ivL2mu3wh-rYlzcHeEEfGnAqwBAA",
-    "domain": ".youtube.com",
-    "path": "/",
-    "expires": 1781772892.898406,
-    "httpOnly": true,
-    "secure": true
-  },
-  {
-    "name": "__Secure-3PSIDTS",
-    "value": "sidts-CjIB5H03PxpUSpQoJwDUcIG8_XFYn_GMJDOJC-901Sp6ivL2mu3wh-rYlzcHeEEfGnAqwBAA",
-    "domain": ".youtube.com",
-    "path": "/",
-    "expires": 1781772892.898611,
-    "httpOnly": true,
-    "secure": true
-  },
-  {
-    "name": "SIDCC",
-    "value": "AKEyXzWD3ubnQx1F0RGFzqbtiGyIfOMpf5Zgo8cH4tdzkqo2lilZcmtjmXSwhTCro7SSqoXX7Q",
-    "domain": ".youtube.com",
-    "path": "/",
-    "expires": 1781772893.371819,
-    "httpOnly": false,
-    "secure": false
-  },
-  {
-    "name": "__Secure-1PSIDCC",
-    "value": "AKEyXzUy36VJromxrf3GJW3WbpVDTNfuVxxG9PLvWsC6dT56HoYPJb5vnlIvkJYJuBfD5IGqWIg",
-    "domain": ".youtube.com",
-    "path": "/",
-    "expires": 1781772893.372428,
-    "httpOnly": true,
-    "secure": true
-  },
-  {
-    "name": "__Secure-3PSIDCC",
-    "value": "AKEyXzX8m7meitadgujvZ0uuWReDxUj2tRQDkNt9GPArGAGmZVM-Pqw0Urw_OtIZStOlb0_kAjo",
-    "domain": ".youtube.com",
-    "path": "/",
-    "expires": 1781772893.372592,
-    "httpOnly": true,
-    "secure": true
-  }
-]
+.youtube.com	TRUE	/	FALSE	1783413039	HSID	AUdzs2V8UHYre263c
+.youtube.com	TRUE	/	TRUE	1783413039	SSID	A8wlKTOxv7nOckvjS
+.youtube.com	TRUE	/	FALSE	1783413039	APISID	0zd7D1-6eO08A7Nw/AndFzsQUEx5Uf64ex
+.youtube.com	TRUE	/	TRUE	1783413039	SAPISID	SSYLP66p3nwFbcff/Aa_R0-ki5VTu4iHzi
+.youtube.com	TRUE	/	TRUE	1783413039	__Secure-1PAPISID	SSYLP66p3nwFbcff/Aa_R0-ki5VTu4iHzi
+.youtube.com	TRUE	/	TRUE	1783413039	__Secure-3PAPISID	SSYLP66p3nwFbcff/Aa_R0-ki5VTu4iHzi
+.youtube.com	TRUE	/	TRUE	1779448623	LOGIN_INFO	AFmmF2swRQIgeizrIBYrYrY09tkSk22Yqp6_emnikf1NXC-HZ0HU7LYCIQCLQkjwnP-cALt9w82sz0HhcdrrmlDSrGqVVC8qv2LeOQ:QUQ3MjNmelZ2dFpSRldIbG5sMW1sMUlqTnQ1Z3ZDQ0tOMzBFdW9TVzFjMlVuNVRDMlBJeEg2LVhrOGlIbThaT01pZGJkekRrVlpxQlU0V29vNnAzZWVfMEh6M2NnMm1TSXVtNUZHLU9TbDdobG1hVDA1cEN4dFdDeEhVWC01SVhuZU91dVJ4TWU2U2ZUWDZrMVlLRWMyM2hMcDY2M2dKTHpB
+.youtube.com	TRUE	/	TRUE	1784795723	PREF	f7=100&tz=Asia.Calcutta
+.youtube.com	TRUE	/	FALSE	1783413039	SID	g.a000xgjCkhHL_dUivYNB9MchsrRFlaPU3o0LKKkClULXh5hi1JjFl4Ot9dJgyhXvwOya0tFyzgACgYKAX4SARUSFQHGX2MikvAaJAwqXXiNV11Qr50YthoVAUF8yKq4RezvHBg7IHTiOw8EIqvg0076
+.youtube.com	TRUE	/	TRUE	1783413039	__Secure-1PSID	g.a000xgjCkhHL_dUivYNB9MchsrRFlaPU3o0LKKkClULXh5hi1JjFtYmDEFXNoh1vp9Dr71A9jwACgYKAbsSARUSFQHGX2MiupKiJHzKImrqYk_ZuWVKFxoVAUF8yKpj7Y6OKK46uaDAtfA5o04K0076
+.youtube.com	TRUE	/	TRUE	1783413039	__Secure-3PSID	g.a000xgjCkhHL_dUivYNB9MchsrRFlaPU3o0LKKkClULXh5hi1JjF81I1woeZWihB6RFIkw_RzgACgYKAYcSARUSFQHGX2Mi6-ELs1LbDuIA3ucStdjHHBoVAUF8yKoyVhT6eYuCcDcPVhix6CLA0076
+.youtube.com	TRUE	/	TRUE	1781772892	__Secure-1PSIDTS	sidts-CjIB5H03PxpUSpQoJwDUcIG8_XFYn_GMJDOJC-901Sp6ivL2mu3wh-rYlzcHeEEfGnAqwBAA
+.youtube.com	TRUE	/	TRUE	1781772892	__Secure-3PSIDTS	sidts-CjIB5H03PxpUSpQoJwDUcIG8_XFYn_GMJDOJC-901Sp6ivL2mu3wh-rYlzcHeEEfGnAqwBAA
+.youtube.com	TRUE	/	FALSE	1781772893	SIDCC	AKEyXzWD3ubnQx1F0RGFzqbtiGyIfOMpf5Zgo8cH4tdzkqo2lilZcmtjmXSwhTCro7SSqoXX7Q
+.youtube.com	TRUE	/	TRUE	1781772893	__Secure-1PSIDCC	AKEyXzUy36VJromxrf3GJW3WbpVDTNfuVxxG9PLvWsC6dT56HoYPJb5vnlIvkJYJuBfD5IGqWIg
+.youtube.com	TRUE	/	TRUE	1781772893	__Secure-3PSIDCC	AKEyXzX8m7meitadgujvZ0uuWReDxUj2tRQDkNt9GPArGAGmZVM-Pqw0Urw_OtIZStOlb0_kAjo
