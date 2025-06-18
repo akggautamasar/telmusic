@@ -1,7 +1,7 @@
 services:
   - type: web
     name: telegram-music-bot
-    env: docker
+    env: docker   # 🔴 This line is critical
     repo: https://github.com/akggautamasar/telmusic
     branch: main
     autoDeploy: true
