@@ -1,6 +1,5 @@
 import os
 import yt_dlp
-import asyncio
 import threading
 from flask import Flask
 from dotenv import load_dotenv
@@ -11,7 +10,7 @@ from telegram.ext import (
     ContextTypes,
     MessageHandler,
     CallbackQueryHandler,
-    filters
+    filters,
 )
 
 load_dotenv()
@@ -126,22 +125,20 @@ async def download_audio(url):
         print(f"Download error: {e}")
         return None
 
-# ✅ Updated main() and entry point
-async def main():
+# ✅ MAIN without asyncio.run
+def run_flask():
+    flask_app.run(host="0.0.0.0", port=8000)
+
+def run_bot():
     app = ApplicationBuilder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, search))
     app.add_handler(CallbackQueryHandler(button_handler))
 
-    # Run Flask server in a separate thread (non-blocking)
-    def run_flask():
-        flask_app.run(host="0.0.0.0", port=8000)
-
-    threading.Thread(target=run_flask).start()
-
     print("🚀 Telegram bot started...")
-    await app.run_polling()
+    app.run_polling()  # No await or asyncio.run here
 
-# Entry
+# Entry point
 if __name__ == "__main__":
-    asyncio.run(main())
+    threading.Thread(target=run_flask, daemon=True).start()
+    run_bot()
