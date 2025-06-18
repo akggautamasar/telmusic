@@ -11,11 +11,14 @@ from telegram.ext import (
 )
 from dotenv import load_dotenv
 
+# Load environment variables
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
+# Store search results per user
 SEARCH_RESULTS = {}
 
+# Prepare downloads directory
 os.makedirs("downloads", exist_ok=True)
 for f in os.listdir("downloads"):
     try:
@@ -23,9 +26,11 @@ for f in os.listdir("downloads"):
     except:
         pass
 
+# /start command
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("🎵 Welcome! Send me a song or video name, and I'll fetch it for you.")
 
+# When user sends song name
 async def search(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.message.text
     videos = yt_search(query)
@@ -38,6 +43,7 @@ async def search(update: Update, context: ContextTypes.DEFAULT_TYPE):
     SEARCH_RESULTS[user_id] = {'query': query, 'videos': videos, 'page': 0}
     await show_video_list(update, context, user_id)
 
+# Perform YouTube search
 def yt_search(query):
     ydl_opts = {'quiet': True, 'extract_flat': True, 'skip_download': True}
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -48,6 +54,7 @@ def yt_search(query):
             print(f"Search error: {e}")
             return []
 
+# Show list of results with pagination
 async def show_video_list(update, context, user_id):
     page = SEARCH_RESULTS[user_id]['page']
     videos = SEARCH_RESULTS[user_id]['videos']
@@ -78,6 +85,7 @@ async def show_video_list(update, context, user_id):
         reply_markup=InlineKeyboardMarkup(buttons)
     )
 
+# When user clicks a video or paginates
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     user_id = update.effective_user.id
@@ -97,8 +105,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         index = int(query.data.split("_")[1])
         video = SEARCH_RESULTS[user_id]['videos'][index]
         url = f"https://www.youtube.com/watch?v={video['id']}"
-        await query.edit_message_text(f"🎧 Downloading audio for:
-{video['title']}")
+        await query.edit_message_text(f"🎧 Downloading audio for: {video['title'][:70]}")
 
         file_path = await download_audio(url)
         if file_path:
@@ -112,6 +119,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         else:
             await context.bot.send_message(chat_id=query.message.chat_id, text="❌ Failed to download audio.")
 
+# Download and convert to MP3
 async def download_audio(url):
     try:
         ydl_opts = {
@@ -132,6 +140,7 @@ async def download_audio(url):
         print(f"Download error: {e}")
         return None
 
+# Run bot
 if __name__ == "__main__":
     app = ApplicationBuilder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
