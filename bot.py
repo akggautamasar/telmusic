@@ -1,6 +1,7 @@
 import os
 import yt_dlp
 import asyncio
+import threading
 from flask import Flask
 from dotenv import load_dotenv
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
@@ -125,22 +126,21 @@ async def download_audio(url):
         print(f"Download error: {e}")
         return None
 
-# Async launch for both
+# ✅ Updated main() and entry point
 async def main():
     app = ApplicationBuilder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, search))
     app.add_handler(CallbackQueryHandler(button_handler))
 
-    await app.initialize()
-    await app.start()
+    # Run Flask server in a separate thread (non-blocking)
+    def run_flask():
+        flask_app.run(host="0.0.0.0", port=8000)
+
+    threading.Thread(target=run_flask).start()
+
     print("🚀 Telegram bot started...")
-
-    # Run Flask in background
-    loop = asyncio.get_event_loop()
-    await loop.run_in_executor(None, lambda: flask_app.run(host="0.0.0.0", port=8000))
-
-    await app.stop()
+    await app.run_polling()
 
 # Entry
 if __name__ == "__main__":
