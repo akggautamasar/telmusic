@@ -13,6 +13,7 @@ from telegram.ext import (
     filters,
 )
 
+# Load environment variables
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 SEARCH_RESULTS = {}
@@ -24,7 +25,7 @@ flask_app = Flask(__name__)
 def index():
     return "✅ Bot is running on Koyeb!"
 
-# Telegram handlers
+# Telegram Handlers
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Send a song name to download its audio.")
 
@@ -98,7 +99,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if file_path:
             try:
                 await context.bot.send_audio(chat_id=query.message.chat_id, audio=open(file_path, 'rb'))
-                os.remove(file_path)
+                os.remove(file_path)  # Clean up file after sending
             except Exception as e:
                 print(f"Send error: {e}")
                 await context.bot.send_message(chat_id=query.message.chat_id, text="❌ Failed to send file.")
@@ -106,6 +107,8 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await context.bot.send_message(chat_id=query.message.chat_id, text="❌ Download failed.")
 
 async def download_audio(url):
+    os.makedirs("downloads", exist_ok=True)  # ✅ Ensure downloads/ exists
+
     ydl_opts = {
         'format': 'bestaudio/best',
         'outtmpl': 'downloads/%(title)s.%(ext)s',
@@ -114,7 +117,7 @@ async def download_audio(url):
             'preferredcodec': 'mp3',
             'preferredquality': '192',
         }],
-        'cookiefile': 'cookies.txt',  # ✅ Use your cookies.txt file here
+        'cookiefile': 'cookies.txt',
         'quiet': True,
     }
     try:
@@ -126,7 +129,7 @@ async def download_audio(url):
         print(f"Download error: {e}")
         return None
 
-# ✅ MAIN without asyncio.run
+# 🔁 Telegram + Flask Integration
 def run_flask():
     flask_app.run(host="0.0.0.0", port=8000)
 
@@ -137,9 +140,9 @@ def run_bot():
     app.add_handler(CallbackQueryHandler(button_handler))
 
     print("🚀 Telegram bot started...")
-    app.run_polling()  # No await or asyncio.run here
+    app.run_polling()
 
-# Entry point
+# ✅ Entry Point
 if __name__ == "__main__":
     threading.Thread(target=run_flask, daemon=True).start()
     run_bot()
