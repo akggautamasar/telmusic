@@ -37,40 +37,33 @@ async def search(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     user_id = update.effective_user.id
-    SEARCH_RESULTS[user_id] = {'query': query, 'videos': videos, 'page': 0}
+    SEARCH_RESULTS[user_id] = {'query': query, 'videos': videos}
     await show_results(update, context, user_id)
 
 def yt_search(query):
     ydl_opts = {'quiet': True, 'extract_flat': True, 'skip_download': True}
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            result = ydl.extract_info(f"ytsearch10:{query}", download=False)
-            return result['entries']
+            result = ydl.extract_info(f"ytsearch50:{query}", download=False)
+            return result['entries'][:50]  # Limit to 50 entries
     except Exception as e:
         print(f"Search error: {e}")
         return []
 
 async def show_results(update, context, user_id):
     videos = SEARCH_RESULTS[user_id]['videos']
-    page = SEARCH_RESULTS[user_id]['page']
-    start = page * 5
-    end = start + 5
-
     buttons = []
-    for i, video in enumerate(videos[start:end], start=start):
+
+    for i, video in enumerate(videos):
         title = video.get('title', 'No Title')[:50]
         buttons.append([InlineKeyboardButton(title, callback_data=f"select_{i}")])
 
-    nav_buttons = []
-    if page > 0:
-        nav_buttons.append(InlineKeyboardButton("⬅️ Prev", callback_data="prev"))
-    if end < len(videos):
-        nav_buttons.append(InlineKeyboardButton("➡️ Next", callback_data="next"))
-    if nav_buttons:
-        buttons.append(nav_buttons)
+    # Limit total buttons to 50 for Telegram safety
+    if len(buttons) > 50:
+        buttons = buttons[:50]
 
     await update.message.reply_text(
-        f"Results for '{SEARCH_RESULTS[user_id]['query']}' (Page {page+1})",
+        f"🔍 All results for: '{SEARCH_RESULTS[user_id]['query']}'",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
 
@@ -83,13 +76,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.edit_message_text("Session expired. Send query again.")
         return
 
-    if query.data == "next":
-        SEARCH_RESULTS[user_id]['page'] += 1
-        await show_results(query, context, user_id)
-    elif query.data == "prev":
-        SEARCH_RESULTS[user_id]['page'] -= 1
-        await show_results(query, context, user_id)
-    elif query.data.startswith("select_"):
+    if query.data.startswith("select_"):
         index = int(query.data.split("_")[1])
         video = SEARCH_RESULTS[user_id]['videos'][index]
         url = f"https://www.youtube.com/watch?v={video['id']}"
@@ -99,7 +86,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if file_path:
             try:
                 await context.bot.send_audio(chat_id=query.message.chat_id, audio=open(file_path, 'rb'))
-                os.remove(file_path)  # Clean up file after sending
+                os.remove(file_path)  # Clean up
             except Exception as e:
                 print(f"Send error: {e}")
                 await context.bot.send_message(chat_id=query.message.chat_id, text="❌ Failed to send file.")
@@ -107,8 +94,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await context.bot.send_message(chat_id=query.message.chat_id, text="❌ Download failed.")
 
 async def download_audio(url):
-    os.makedirs("downloads", exist_ok=True)  # ✅ Ensure downloads/ exists
-
+    os.makedirs("downloads", exist_ok=True)
     ydl_opts = {
         'format': 'bestaudio/best',
         'outtmpl': 'downloads/%(title)s.%(ext)s',
@@ -129,20 +115,20 @@ async def download_audio(url):
         print(f"Download error: {e}")
         return None
 
-# 🔁 Telegram + Flask Integration
+# Run Flask
 def run_flask():
     flask_app.run(host="0.0.0.0", port=8000)
 
+# Run Telegram Bot
 def run_bot():
     app = ApplicationBuilder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, search))
     app.add_handler(CallbackQueryHandler(button_handler))
-
     print("🚀 Telegram bot started...")
     app.run_polling()
 
-# ✅ Entry Point
+# Entry Point
 if __name__ == "__main__":
     threading.Thread(target=run_flask, daemon=True).start()
     run_bot()
